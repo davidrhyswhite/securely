@@ -46,4 +46,8 @@ class SecurelyTest < Minitest::Test
     assert_match /[#{@specials}]/, password
     refute_match /[#{ @lowercase + @uppercase + @numerical }]/, password
   end
+
+  def test_an_error_is_raised_if_invalid_options_provided
+    assert_raises { Securely.generate_password lowercase: false, uppercase: false, numbers: false, specials: false }
+  end
 end

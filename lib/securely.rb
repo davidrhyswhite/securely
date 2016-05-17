@@ -8,6 +8,7 @@ module Securely
   SPECIALS  = %w(! $ % & * @ ^)
 
   def self.generate_password(length: 32, uppercase: true, lowercase: true, numbers: true, specials: true)
+    raise 'Invalid options provided one of uppercase, lowercase, numbers or specials must be true' unless uppercase || lowercase || numbers || specials
     characters = self.provide_characters(uppercase, lowercase, numbers, specials)
 
     (0...length).collect { characters.sample }.join
