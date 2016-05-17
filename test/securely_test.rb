@@ -47,7 +47,25 @@ class SecurelyTest < Minitest::Test
     refute_match /[#{ @lowercase + @uppercase + @numerical }]/, password
   end
 
-  def test_an_error_is_raised_if_invalid_options_provided
+  def test_an_error_is_raised_if_characters_are_empty
     assert_raises { Securely.generate_password lowercase: false, uppercase: false, numbers: false, specials: false }
+  end
+
+  def test_error_message_is_provided_if_characters_are_empty
+    exception = assert_raises { Securely.generate_password lowercase: false, uppercase: false, numbers: false, specials: false }
+    expected = 'Invalid options provided one of uppercase, lowercase, numbers or specials must be true'
+
+    assert_equal expected, exception.message
+  end
+
+  def test_an_error_is_raised_if_length_is_less_than_one
+    assert_raises { Securely.generate_password length: -4 }
+  end
+
+  def test_error_message_is_provided_if_length_is_less_than_one
+    exception = assert_raises { Securely.generate_password length: -4 }
+    expected = 'Invalid option password length must be greater than zero'
+
+    assert_equal expected, exception.message
   end
 end
